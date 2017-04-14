@@ -13,25 +13,26 @@ use App\System\Init\Application;
 
 class Dm
 {
-    public static $request;
-    public static $route;
-    public static $response;
-    public static $config;
-
+    public static $application;
     public static function handle(Request $request){
 
     }
 
     public static function init()
     {
-        self::$request = Request::createRequestFormLocal();
+        /*
+         load config path
+         load request
+         load route 从request的url中得到uri 能够得到controller,directroy,还有配合config指定route
+         {load log,exception}
+          将以上load类加载到application
+        */
 
-        self::$route = new Route(self::$request->getUrl());
-
-        self::$respone = self::handle(self::$request);
     }
 
     public static function createApp(){
+
+        self::$respone = self::handle(self::$request);
 
     }
 }
