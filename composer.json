@@ -1,0 +1,19 @@
+{
+    "name": "Dm",
+    "description": "Dmxiao framwork",
+    "type": "porject",
+    "license": "0.01",
+    "authors": [
+        {
+            "name": "dmxiao",
+            "email": "dmxiao@enet.com.cn"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload":{
+        "psr-4":{
+            "App\\":"src/"
+        }
+    }
+}
