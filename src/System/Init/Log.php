@@ -11,5 +11,30 @@ namespace App\System\Init;
 
 class Log
 {
+    private $loglevel ;
+
+    private $logDirver;
+
+    public function message(){
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLoglevel()
+    {
+        return $this->loglevel;
+    }
+
+    /**
+     * @param mixed $loglevel
+     */
+    public function setLoglevel($loglevel)
+    {
+        $this->loglevel = $loglevel;
+    }
+
+
 
 }

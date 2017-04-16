@@ -17,11 +17,14 @@ use App\System\Init\Response;
 class Application
 {
 
-    private $request;
-    private $response;
+    private $bind ;
+    private $instance;
 
-    function __construct(Request $request,Response $response)
+
+
+    function __construct()
     {
+
     }
 
 
@@ -30,6 +33,12 @@ class Application
      * @param $concert
      */
     public function bind($abstract, $concert){
+        if($concert instanceof \Closure){
+            $this->bind[$abstract] = $concert;
+        }else{
+            $this->instance[$abstract] = $concert;
+        }
+
 
     }
 

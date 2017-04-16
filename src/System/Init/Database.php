@@ -11,5 +11,23 @@ namespace App\System\Init;
 
 class Database
 {
+    private $connection;
+
+    /**
+     * @return mixed
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * @param mixed $connection
+     */
+    public function setConnection($connection)
+    {
+        $this->connection = $connection;
+    }
+
 
 }
