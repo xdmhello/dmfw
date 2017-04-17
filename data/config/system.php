@@ -6,3 +6,7 @@
  * Filename: system.php
  */
 
+define('APP_DEBUG',true);
+
+define('PHPEXT','.php');
+

@@ -40,7 +40,7 @@ class Config
      * @param string $module
      */
     public function getItem($key,$module='base'){
-
+        return $this->items[$module][$key];
     }
 
     /**
@@ -50,15 +50,31 @@ class Config
      */
     public function load($file,$module){
 
-    }
+        if(!file_exists($file)){
+            $file = $this->configPath.ltrim(DIRECTORY_SEPARATOR,$file);
+        }
 
+        if(file_exists($file)){
+            if(is_dir($file)){
+                $files = new \DirectoryIterator($file);
+                foreach ($files as $v){
+                    $this->load($v->getPath(),$module);
+                }
+            }else{
+                $config = require_once $file;
+                $this->items[$module] = $config;
+            }
+        }
+    }
     /**
      * 获取该模块下的配置
      * @param $module 模块名称
      * @return array
      */
     public function getModule($module){
-
+        if (is_set($this->items[$module])){
+            return $this->items[$module];
+        }
     }
 
 

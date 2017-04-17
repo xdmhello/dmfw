@@ -31,6 +31,7 @@ return array(
 
     ],
     'log' => [
+//        'level' = ;
 
     ]
 

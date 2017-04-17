@@ -38,12 +38,17 @@ class Application
         }else{
             $this->instance[$abstract] = $concert;
         }
-
-
+        
     }
 
 
     public function make($abstract,$params){
+        if($this->instance[$abstract]){
+            return $this->instance[$abstract];
+        }
+        $params = array_shift($params,$this);
+
+        call_user_func($this->bind[$abstract],$params);
 
     }
 

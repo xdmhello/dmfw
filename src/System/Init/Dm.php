@@ -32,7 +32,16 @@ class Dm
 
     public static function createApp(){
 
-        self::$respone = self::handle(self::$request);
+        $request = self::handle(Request::creatRequest());
 
+        $app = new Application();
+
+        $app->bind('request',$request);
+        $app->bind('');
+
+        return $app;
     }
+
+
+
 }

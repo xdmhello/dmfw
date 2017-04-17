@@ -75,7 +75,7 @@ class Request
     {
     }
 
-    public static function createRequestFormLocal(){
+    public static function creatRequest(){
 
     }
 }

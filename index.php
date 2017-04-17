@@ -6,20 +6,21 @@
  * Filenam: index.php
  */
 require_once '/vendor/autoload.php';
-use App\System\Init;
+use App\System\Init\Config;
+use App\System\Init\Dm;
 
 define("BASEPATH",ltrim(dirname('__FILE__'),DIRECTORY_SEPARATOR));
 define("APPPATH",BASEPATH.DIRECTORY_SEPARATOR.'src');
 define('DATA_PATH',BASEPATH.DIRECTORY_SEPARATOR.'data');
 define('CONFIG_PATH',DATA_PATH.DIRECTORY_SEPARATOR.'Config');
-define('PHPEXT','.php');
+require_once CONFIG_PATH.'system.php';
 
 
-$cfg = new Init\Config();
+$cfg = new Config();
 
-Init\Dm::init();
+Dm::init();
 
-$app = Init\Dm::createApp();
+$app = Dm::createApp();
 
 $app->run();
 
