@@ -7,6 +7,7 @@
  */
 
 namespace App\System\Init;
+
 use App\System\Init\Request;
 use App\System\Init\Response;
 
@@ -17,9 +18,8 @@ use App\System\Init\Response;
 class Application
 {
 
-    private $bind ;
+    private $bind;
     private $instance;
-
 
 
     function __construct()
@@ -32,26 +32,27 @@ class Application
      * @param $abstract
      * @param $concert
      */
-    public function bind($abstract, $concert){
-        if($concert instanceof \Closure){
+    public function bind($abstract, $concert)
+    {
+        if ($concert instanceof \Closure) {
             $this->bind[$abstract] = $concert;
-        }else{
+        } else {
             $this->instance[$abstract] = $concert;
         }
-        
+
     }
 
 
-    public function make($abstract,$params){
-        if($this->instance[$abstract]){
+    public function make($abstract, $params)
+    {
+        if ($this->instance[$abstract]) {
             return $this->instance[$abstract];
         }
-        $params = array_shift($params,$this);
+        $params = array_shift($params, $this);
 
-        call_user_func($this->bind[$abstract],$params);
+        call_user_func($this->bind[$abstract], $params);
 
     }
-
 
 
 }

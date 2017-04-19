@@ -71,11 +71,12 @@ class Request
         return $this->ip;
     }
 
-    function __construct($url,$method,$ip,$cookie,$headers,$params)
+    function __construct($url, $method, $ip, $cookie, $headers, $params)
     {
     }
 
-    public static function creatRequest(){
+    public static function creatRequest()
+    {
 
     }
 }

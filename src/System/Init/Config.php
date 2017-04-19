@@ -22,7 +22,7 @@ class Config
 
     function __construct()
     {
-        $this->items = require_once CONFIG_PATH.'config'.PHPEXT;
+        $this->items = require_once CONFIG_PATH . 'config' . PHPEXT;
         $this->configPath = CONFIG_PATH;
     }
 
@@ -39,7 +39,8 @@ class Config
      * @param $key 配置的key
      * @param string $module
      */
-    public function getItem($key,$module='base'){
+    public function getItem($key, $module = 'base')
+    {
         return $this->items[$module][$key];
     }
 
@@ -48,31 +49,34 @@ class Config
      * @param $file 文件名|文件路径
      * @param $module
      */
-    public function load($file,$module){
+    public function load($file, $module)
+    {
 
-        if(!file_exists($file)){
-            $file = $this->configPath.ltrim(DIRECTORY_SEPARATOR,$file);
+        if (!file_exists($file)) {
+            $file = $this->configPath . ltrim(DIRECTORY_SEPARATOR, $file);
         }
 
-        if(file_exists($file)){
-            if(is_dir($file)){
+        if (file_exists($file)) {
+            if (is_dir($file)) {
                 $files = new \DirectoryIterator($file);
-                foreach ($files as $v){
-                    $this->load($v->getPath(),$module);
+                foreach ($files as $v) {
+                    $this->load($v->getPath(), $module);
                 }
-            }else{
+            } else {
                 $config = require_once $file;
                 $this->items[$module] = $config;
             }
         }
     }
+
     /**
      * 获取该模块下的配置
      * @param $module 模块名称
      * @return array
      */
-    public function getModule($module){
-        if (is_set($this->items[$module])){
+    public function getModule($module)
+    {
+        if (is_set($this->items[$module])) {
             return $this->items[$module];
         }
     }
@@ -84,7 +88,8 @@ class Config
      * @param $value string|array
      * @param string $module
      */
-    public function setItem($key, $value, $module=''){
+    public function setItem($key, $value, $module = '')
+    {
 
     }
 

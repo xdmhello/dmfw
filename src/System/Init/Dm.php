@@ -7,6 +7,7 @@
  */
 
 namespace App\System\Init;
+
 use App\System\Init\Request;
 use App\System\Init\Response;
 use App\System\Init\Application;
@@ -14,7 +15,9 @@ use App\System\Init\Application;
 class Dm
 {
     public static $application;
-    public static function handle(Request $request){
+
+    public static function handle(Request $request)
+    {
 
     }
 
@@ -30,18 +33,18 @@ class Dm
 
     }
 
-    public static function createApp(){
+    public static function createApp()
+    {
 
         $request = self::handle(Request::creatRequest());
 
         $app = new Application();
 
-        $app->bind('request',$request);
+        $app->bind('request', $request);
         $app->bind('');
 
         return $app;
     }
-
 
 
 }

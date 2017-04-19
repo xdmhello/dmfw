@@ -15,14 +15,11 @@ define('DATA_PATH',BASEPATH.DIRECTORY_SEPARATOR.'data');
 define('CONFIG_PATH',DATA_PATH.DIRECTORY_SEPARATOR.'Config');
 require_once CONFIG_PATH.'system.php';
 
-
 $cfg = new Config();
 
 Dm::init();
+Dm::createApp()->run();
 
-$app = Dm::createApp();
-
-$app->run();
 
 
 
