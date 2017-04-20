@@ -26,6 +26,7 @@ class Cookie
 
     }
 
+
     /**
      * @param $name
      * @param $value
@@ -33,8 +34,10 @@ class Cookie
      * @param $expire
      * @param $domain
      * @param $path
+     * @param $secure
+     * @param $httponly
      */
-    public function set($name, $value, $prefix, $expire, $domain, $path){
+    public function set($name, $value, $prefix, $expire, $domain, $path, $secure, $httponly){
 
     }
 
