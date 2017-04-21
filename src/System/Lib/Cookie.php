@@ -15,6 +15,7 @@ class Cookie
 
     public function __construct()
     {
+
     }
 
 
@@ -23,7 +24,10 @@ class Cookie
      * @param $default
      */
     public function get($name, $default){
-
+        if(isset($_COOKIE[$name])){
+            return $_COOKIE[$name];
+        }
+        return $_COOKIE[$default];
     }
 
 
@@ -39,12 +43,21 @@ class Cookie
      */
     public function set($name, $value, $prefix, $expire, $domain, $path, $secure, $httponly){
 
+
     }
 
     /**
      * @param $name
      */
     public function del($name){
+
+    }
+
+
+    /**
+     * @param $name
+     */
+    public function exist($name){
 
     }
 
