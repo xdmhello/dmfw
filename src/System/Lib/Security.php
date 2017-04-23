@@ -25,6 +25,7 @@ class Security
 
 
     /**
+     * 加密
      * @param $value
      */
     public function encrypt($value){
@@ -32,6 +33,7 @@ class Security
     }
 
     /**
+     * 解密
      * @param $value
      */
     public function decrypt($value){
@@ -39,6 +41,7 @@ class Security
     }
 
     /**
+     * 密码加密
      * @param $pass
      */
     public function password($pass){
@@ -47,6 +50,7 @@ class Security
 
 
     /**
+     * 密码check
      * @param $pass
      * @param $passencrypt
      */
@@ -55,7 +59,7 @@ class Security
     }
 
     /**
-     *
+     * 请求数据过滤
      */
     public function filterRequest(){
 
@@ -63,21 +67,21 @@ class Security
 
 
     /**
-     *
+     * 防止xss
      */
     public function xss(){
 
     }
 
     /**
-     *
+     * 防止csrf
      */
     public function csrf(){
 
     }
 
     /**
-     *
+     * 数据库过滤
      */
     public function filterDb(){
 
