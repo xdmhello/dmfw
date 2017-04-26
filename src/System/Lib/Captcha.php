@@ -14,19 +14,33 @@ namespace App\System\Lib;
  * Class Captcha
  * @package App\System\Lib
  */
-class Captcha{
+class Captcha
+{
+    /**
+     * @var 当前验证码的文字或字母
+     */
     private $word;
+    /**
+     * @var 生成验证码存放的位置
+     */
     private $path;
+    /**
+     * @var 随机可用的字符
+     */
     private $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    /**
+     * @var 默认的配置
+     */
     private $default = array(
-        'width'=>150,
-        'height'=>30,
-        'color'=>0,
-        'ext'=>'png',
-        'path'=>'/',
-        'is_code'=>true,
-        'fontnum'=>4,
+        'width' => 150,
+        'height' => 30,
+        'ext' => 'png',
+        'fontnum' => 4,
+        'fontsize' => 4,
     );
+    /**
+     * @var 验证类配置
+     */
     private $config = array();
 
     /**
@@ -34,101 +48,135 @@ class Captcha{
      */
     public function __construct($config)
     {
-        foreach ($this->default as $key => $value){
-            if(isset($config[$key])){
+        foreach ($this->default as $key => $value) {
+            if (isset($config[$key])) {
                 $this->config[$key] = $config[$key];
-            }else{
+            } else {
                 $this->config[$key] = $value;
             }
         }
     }
 
     /**
-     * 新的code
-     * @param string $word
-     * @param string $path
+     * 生成验证码
+     * @param string $word 自定义文字
+     * @param null $path 生成图片的地址
      */
-    public function create($word='', $path=''){
+    public function create($word = '', $path = NULL)
+    {
         header("Content-type:image/png");
+
+        if ($word) {
+            $this->_setWord($word);
+        }
+
+        $outputHandler = 'image' . $this->ext;
+        if (!function_exists($outputHandler)) {
+            throw new Exception("不支持这个格式的图片", 1);
+        }
+
+
+        if ($path && is_dir($path)) {
+            $path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $time = microtime(true);
+            $path .= md5($time . rand(0, 10000)) . '.' . $this->ext;
+        }
+
+        $this->path = $path;
+
+        $im = imagecreatetruecolor($this->width, $this->height);
+        $write = imagecolorallocate($im, 255, 255, 255);
+        $black = imagecolorallocate($im, 0, 0, 0);
+        imagerectangle($im, 0, 0, $this->width, $this->height, $write);
+
+        imagestring($im, $this->fontsize, 0, 0, $this->word, $black);
+
+        $outputHandler = 'image' . $this->ext;
+        @$$outputHandler($im, $path);
 
     }
 
-
     /**
-     * @return mixed
+     * 返回当前的验证码code
+     * @return 当前验证码的文字或字母
      */
-    public function getWord(){
-        if(!$this->word){
+    public function getWord()
+    {
+        if (!$this->word) {
             $this->_createWord($this->is_code);
         }
         return $this->word;
     }
 
-
-
-    public function setWord($value){
-        $value = is_integer($value)? strval($value) : $value;
-
-
-        $grep = preg_grep("/[u4e00-u9fa5]/",$value);
-        if($grep){
-            $len = mb_strlen($value);
+    /**
+     * 设置code
+     * @param $word
+     */
+    private function _setWord($word)
+    {
+        $grep = preg_grep("/[u4e00-u9fa5]/", $word);
+        if ($grep) {
+            $this->_createWord($word, false);
+        } else {
+            $this->_createWord($word);
         }
-
-
-        if(strlen($value) == $this->fontnum){
-
-        }
-
     }
 
 
-
-    private function _createWord($isFont){
-        if($isFont){
+    /**
+     * 生成code
+     * @param string $word
+     * @param bool $isalphabet
+     */
+    private function _createWord($word = "", $isalphabet = true)
+    {
+        if (!$word) {
             $count = strlen($this->pool);
-            if(function_exists('mt_rand')){
-                for($i=0;$i<$this->fontnum;$i++){
-                    $this->word .= $this->pool[mt_rand(0,$count)];
+            if (function_exists('mt_rand')) {
+                for ($i = 0; $i < $this->fontnum; $i++) {
+                    $this->word .= $this->pool[mt_rand(0, $count - 1)];
                 }
             }
-
-            if(!$this->word){
-                for($i=0;$i<$this->fontnum;$i++){
-                    $this->word .= $this->pool[rand(0,$count)];
+            if (!$this->word) {
+                for ($i = 0; $i < $this->fontnum; $i++) {
+                    $this->word .= $this->pool[rand(0, $count - 1)];
                 }
             }
-        }else{
+        } else {
+            if (function_exists('mb_strlen')) {
+                $count = mb_strlen($word);
 
+                if ($count > $this->fontnum) {
+                    $word = mb_substr($word, $this->fontnum);
+                }
+                //增加汉字
+                if ($count < $this->fontnum) {
+                    throw new Exception("验证码字数太少啦", 1);
+                }
+
+            }
         }
     }
 
-    /**
-     * @param $sharp
-     * @param string $fill
-     */
-    public function changeRectangle($sharp, $fill=''){
-
-    }
-
 
     /**
-     * 获取地址
+     * 验证码图片地址
+     * @return 生成验证码存放的位置
      */
-    public function getFile(){
-
+    public function getPath()
+    {
+        if ($this->path) {
+            return $this->path;
+        }
     }
 
-    public function setPath(){
-
-    }
 
     public function __get($name)
     {
-        if(isset($this->config[$name])){
+        if (isset($this->config[$name])) {
             return $this->config[$name];
-        }else{
-            throw new Exception("没有这个属性",1);
+        } else {
+            throw new Exception("没有这个属性", 1);
         }
     }
 }
