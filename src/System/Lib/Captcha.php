@@ -17,19 +17,19 @@ namespace App\System\Lib;
 class Captcha
 {
     /**
-     * @var 当前验证码的文字或字母
+     * @var string 当前验证码的文字或字母
      */
     private $word;
     /**
-     * @var 生成验证码存放的位置
+     * @var string 生成验证码存放的位置
      */
     private $path;
     /**
-     * @var 随机可用的字符
+     * @var string 随机可用的字符
      */
     private $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     /**
-     * @var 默认的配置
+     * @var array 默认的配置
      */
     private $default = array(
         'width' => 150,
@@ -39,7 +39,7 @@ class Captcha
         'fontsize' => 4,
     );
     /**
-     * @var 验证类配置
+     * @var array 验证类配置
      */
     private $config = array();
 
@@ -72,7 +72,7 @@ class Captcha
 
         $outputHandler = 'image' . $this->ext;
         if (!function_exists($outputHandler)) {
-            throw new Exception("不支持这个格式的图片", 1);
+            throw new \Exception("不支持这个格式的图片", 1);
         }
 
 
@@ -98,7 +98,7 @@ class Captcha
 
     /**
      * 返回当前的验证码code
-     * @return 当前验证码的文字或字母
+     * @return string 当前验证码的文字或字母
      */
     public function getWord()
     {
@@ -121,7 +121,6 @@ class Captcha
             $this->_createWord($word);
         }
     }
-
 
     /**
      * 生成code
@@ -147,36 +146,43 @@ class Captcha
                 $count = mb_strlen($word);
 
                 if ($count > $this->fontnum) {
-                    $word = mb_substr($word, $this->fontnum);
+                    $this->word = mb_substr($word, $this->fontnum);
                 }
-                //增加汉字
-                if ($count < $this->fontnum) {
-                    throw new Exception("验证码字数太少啦", 1);
+                if (!$isalphabet) {
+                    //增加汉字
+                    if ($count < $this->fontnum) {
+                        throw new \Exception("验证码字数太少啦", 1);
+                    }
                 }
 
             }
         }
     }
 
-
     /**
      * 验证码图片地址
-     * @return 生成验证码存放的位置
+     * @return string 生成验证码存放的位置
      */
     public function getPath()
     {
         if ($this->path) {
             return $this->path;
         }
+        return false;
     }
 
-
+    /**
+     * 处理配置
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function __get($name)
     {
         if (isset($this->config[$name])) {
             return $this->config[$name];
         } else {
-            throw new Exception("没有这个属性", 1);
+            throw new \Exception("没有这个属性", 1);
         }
     }
 }
