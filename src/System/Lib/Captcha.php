@@ -88,9 +88,7 @@ class Captcha
         $write = imagecolorallocate($im, 255, 255, 255);
         $black = imagecolorallocate($im, 0, 0, 0);
         imagerectangle($im, 0, 0, $this->width, $this->height, $write);
-
         imagestring($im, $this->fontsize, 0, 0, $this->word, $black);
-
         $outputHandler = 'image' . $this->ext;
         @$$outputHandler($im, $path);
 
