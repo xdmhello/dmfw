@@ -8,8 +8,10 @@
 
 namespace App\System\Init;
 
+use App\System\Database\Connection;
+use App\System\Database\DataAdapter;
 
-class Database
+class Database extends DataAdapter
 {
     private $connection;
 

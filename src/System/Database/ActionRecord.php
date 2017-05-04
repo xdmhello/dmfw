@@ -11,4 +11,6 @@ namespace App\System\Database;
 
 class ActionRecord extends DataAdapter
 {
+
+
 }

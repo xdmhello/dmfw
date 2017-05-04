@@ -11,5 +11,7 @@ namespace App\System\Database;
 
 class DataAdapter
 {
+    public function useDb($dbname = "mysql"){
 
+    }
 }
