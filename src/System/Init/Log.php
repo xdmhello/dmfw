@@ -7,17 +7,18 @@
  */
 
 namespace App\System\Init;
+use App\System\Log\Message;
 
 
-class Log
+abstract class Log
 {
     private $loglevel ;
 
-    private $logDirver;
 
-    public function message(){
+    abstract public function save(Message $info);
 
-    }
+
+    abstract public function get($key);
 
     /**
      * @return mixed
@@ -36,5 +37,13 @@ class Log
     }
 
 
+    public function show(Message $info){
+        echo $info;
+    }
+
+
+    public function getDate(){
+        return date("Y-m-d",time());
+    }
 
 }

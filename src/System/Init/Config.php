@@ -11,6 +11,8 @@ namespace App\System\Init;
 
 class Config
 {
+    private static $instance;
+
     /**
      * @var mixed
      */
@@ -20,11 +22,19 @@ class Config
      */
     public $configPath;
 
-    function __construct()
+    private function __construct()
     {
         $this->items = require_once CONFIG_PATH . 'config' . PHPEXT;
         $this->configPath = CONFIG_PATH;
     }
+
+    public static function getInstance(){
+        if(empty(self::$instance)){
+            self::$instance = new Config();
+        }
+        return self::$instance;
+    }
+
 
     /**
      * @return mixed
